@@ -10,6 +10,18 @@ test('<IssueList /> loading state', async () => {
   expect(loading).not.toBe(null);
 });
 
+test('<IssueList /> error state', async () => {
+  const { getByText } = render(<IssueList />, [
+    {
+      request: GET_ISSUES_MOCK.request,
+      error: new Error('Some loading error'),
+    },
+  ]);
+  await wait(() => getByText('Data fetching error'));
+  const error = getByText('Data fetching error');
+  expect(error).not.toBe(null);
+});
+
 test('<IssueList /> loaded data', async () => {
   const { getByTestId } = render(<IssueList />, [GET_ISSUES_MOCK]);
   await wait(() => getByTestId('issues-list'));
