@@ -57,4 +57,4 @@ const IssueItem = ({
   </React.Fragment>
 );
 
-export default withStyles(styles)(IssueItem);
+export default React.memo(withStyles(styles)(IssueItem));
