@@ -2,6 +2,8 @@ import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Query } from 'react-apollo';
 import { GET_ISSUES } from '../../apollo/queries';
+import List from '@material-ui/core/List';
+import IssueItem from '../IssueItem';
 
 const styles = theme => ({});
 
@@ -13,15 +15,11 @@ const IssueList = ({ classes }) => (
           return <div>Loading...</div>;
         }
         return (
-          <ul data-testid="issues-list">
+          <List data-testid="issues-list">
             {data.repository.issues.edges.map((issue, index) => (
-              <li key={index}>
-                <a href={issue.node.url}>{issue.node.title}</a>
-                <span>{issue.node.state}</span>
-                <span>{issue.node.body}</span>
-              </li>
+              <IssueItem key={index} {...issue.node} />
             ))}
-          </ul>
+          </List>
         );
       }}
     </Query>

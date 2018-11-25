@@ -11,15 +11,8 @@ test('<IssueList /> loading state', async () => {
 });
 
 test('<IssueList /> loaded data', async () => {
-  const { getByText, getByTestId } = render(<IssueList />, [GET_ISSUES_MOCK]);
+  const { getByTestId } = render(<IssueList />, [GET_ISSUES_MOCK]);
   await wait(() => getByTestId('issues-list'));
   const issuesList = getByTestId('issues-list');
-  expect(issuesList.querySelectorAll('li').length).toBe(20);
-
-  const link = getByText('Title 5');
-  expect(link.href).toBe('https://github.com/facebook/react/issues/5');
-  expect(link.nextSibling.innerHTML).toBe('OPEN');
-  expect(link.nextSibling.nextSibling.innerHTML).toBe(
-    'Some issue body for issue no. 5',
-  );
+  expect(issuesList.children.length).toBe(20);
 });
