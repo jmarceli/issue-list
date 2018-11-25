@@ -14,5 +14,5 @@ test('<IssueList /> loaded data', async () => {
   const { getByTestId } = render(<IssueList />, [GET_ISSUES_MOCK]);
   await wait(() => getByTestId('issues-list'));
   const issuesList = getByTestId('issues-list');
-  expect(issuesList.children.length).toBe(20);
+  expect(issuesList.children.length).toBe(20 * 2); // each issue has a collapsible panel
 });

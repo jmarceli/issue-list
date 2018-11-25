@@ -9,7 +9,12 @@ const mockData = GET_ISSUES_MOCK.result.data.repository.issues.edges[4];
 test('<IssueItem /> closed rendering', async () => {
   const handleToggle = jest.fn();
   const { getByText, getByLabelText } = render(
-    <IssueItem handleToggle={handleToggle} {...mockData.node} isOpen={false} />,
+    <IssueItem
+      handleToggle={handleToggle}
+      {...mockData.node}
+      isOpen={false}
+      classes={{}}
+    />,
   );
   const link = getByLabelText(/Go to issue/);
   expect(link.href).toBe('https://github.com/facebook/react/issues/5');
@@ -24,7 +29,12 @@ test('<IssueItem /> closed rendering', async () => {
 test('<IssueItem /> open rendering', async () => {
   const handleToggle = jest.fn();
   const { getByLabelText, getByText } = render(
-    <IssueItem handleToggle={handleToggle} {...mockData.node} isOpen={true} />,
+    <IssueItem
+      handleToggle={handleToggle}
+      {...mockData.node}
+      isOpen={true}
+      classes={{}}
+    />,
   );
   const close = getByLabelText('Close description');
   expect(close).not.toBe(null);
