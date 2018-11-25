@@ -6,12 +6,39 @@ import 'react-testing-library/cleanup-after-each';
 
 const mockData = GET_ISSUES_MOCK.result.data.repository.issues.edges[4];
 
-test('<IssueItem /> rendering', async () => {
-  const { getByText } = render(<IssueItem {...mockData.node} />);
-  const link = getByText('Title 5');
-  expect(link.href).toBe('https://github.com/facebook/react/issues/5');
-  expect(link.nextSibling.innerHTML).toBe('OPEN');
-  expect(link.nextSibling.nextSibling.innerHTML).toBe(
-    'Some issue body for issue no. 5',
+test('<IssueItem /> closed rendering', async () => {
+  const handleToggle = jest.fn();
+  const { getByText, getByLabelText } = render(
+    <IssueItem
+      id={5}
+      isOpen={false}
+      handleToggle={handleToggle}
+      {...mockData.node}
+    />,
   );
+  const link = getByLabelText('Go to issue 5');
+  expect(link.href).toBe('https://github.com/facebook/react/issues/5');
+  const title = getByText(/Title 5.*/);
+  expect(title).not.toBe(null);
+  const open = getByLabelText('Open description');
+  expect(open).not.toBe(null);
+  open.click();
+  expect(handleToggle).toHaveBeenCalledTimes(1);
+});
+
+test('<IssueItem /> open rendering', async () => {
+  const handleToggle = jest.fn();
+  const { getByLabelText, getByText } = render(
+    <IssueItem
+      id={5}
+      isOpen={true}
+      handleToggle={handleToggle}
+      {...mockData.node}
+    />,
+  );
+  const close = getByLabelText('Close description');
+  expect(close).not.toBe(null);
+  close.click();
+  expect(handleToggle).toHaveBeenCalledTimes(1);
+  expect(getByText(/Some issue body for.*/)).not.toBe(null);
 });
